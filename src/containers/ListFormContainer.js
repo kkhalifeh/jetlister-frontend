@@ -24,12 +24,21 @@ class ListFormContainer extends Component {
             formatted_address: data.result.formatted_address,
             formatted_phone_number: data.result.formatted_phone_number,
             name: data.result.name,
-            photos: data.result.photos,
+            photo_ref: data.result.photos[0].photo_reference,
             location: data.result.geometry.location,
             website: data.result.website
           }]
         })
       });
+  }
+
+  removePlace = (e, id) => {
+    e.preventDefault()
+    const places = [...this.state.places]
+    const idx = places.findIndex(place => place.place_id === id)
+    this.setState((prevState) => ({
+      places: [...prevState.places.slice(0, idx), ...prevState.places.slice(idx + 1)]
+    }))
   }
 
   render() {
@@ -39,7 +48,10 @@ class ListFormContainer extends Component {
         <ListGroup variant="flush">
           <ListGroup.Item>CitySelector</ListGroup.Item>
           <ListGroup.Item><LocationSearchInput addPlace={this.addPlace} /></ListGroup.Item>
-          {this.state.places.length > 0 ? <ListGroup.Item><CardContainer places={this.state.places}/></ListGroup.Item> : null}
+          {this.state.places.length > 0 ? <ListGroup.Item><CardContainer
+            places={this.state.places}
+            removePlace={this.removePlace} />
+          </ListGroup.Item> : null}
         </ListGroup>
       </Card>
     )

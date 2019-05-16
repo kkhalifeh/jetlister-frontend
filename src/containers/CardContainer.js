@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PlaceCard from './PlaceCard'
-import { CardDeck } from 'react-bootstrap';
+
 
 class CardContainer extends Component {
 
@@ -9,7 +9,7 @@ class CardContainer extends Component {
     return (
       places.map(place => {
         return (
-            <PlaceCard place={place} key={place.place_id} />
+          <PlaceCard place={place} key={place.place_id} removePlace={this.props.removePlace} />
         )
       })
     )
