@@ -4,6 +4,10 @@ import NavBarContainer from './containers/NavBarContainer';
 import ListFormContainer from './containers/ListFormContainer';
 
 class App extends Component {
+
+  state = {
+    currentuser: null
+  }
   render() {
     return (
       <div>
