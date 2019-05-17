@@ -49,16 +49,27 @@ class ListFormContainer extends Component {
   }
 
 
+  citySelector = (e) => {
+    console.log(e.value)
+    this.setState({ location: { country: e.value, city: e.label } })
+  }
+
   render() {
     return (
       <Card style={{ width: 'auto' }}>
         <h3>Create List</h3>
         <ListGroup variant="flush">
-          <ListGroup.Item><CitySearch /></ListGroup.Item>
-          <ListGroup.Item><LocationSearchInput addPlace={this.addPlace} /></ListGroup.Item>
-          {this.state.places.length > 0 ? <ListGroup.Item><CardContainer
-            places={this.state.places}
-            removePlace={this.removePlace} />
+          <ListGroup.Item>
+            <CitySearch
+              citySelector={this.citySelector} />
+          </ListGroup.Item>
+          <ListGroup.Item>
+            <LocationSearchInput addPlace={this.addPlace} />
+          </ListGroup.Item>
+          {this.state.places.length > 0 ? <ListGroup.Item>
+            <CardContainer
+              places={this.state.places}
+              removePlace={this.removePlace} />
           </ListGroup.Item> : null}
         </ListGroup>
         <ListGroup.Item>

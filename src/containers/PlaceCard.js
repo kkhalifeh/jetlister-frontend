@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Button } from 'react-bootstrap';
+import { Card, Button, Form } from 'react-bootstrap';
 const API_KEY = "AIzaSyC2-olvvVJYlu-5DZZ-EGKMoQ_zZGI3qyg"
 
 class PlaceCard extends Component {
@@ -14,6 +14,10 @@ class PlaceCard extends Component {
     })
       .then(res => res.text())
       .then(text => this.setState({ imgUrl: text }))
+  }
+
+  addNote = (e) => {
+    this.setState({ note: e.target.value })
   }
 
 
@@ -34,8 +38,16 @@ class PlaceCard extends Component {
             </Card.Text>
           </Card.Body>
           <Card.Body>
-            <Card.Link href="#">Note</Card.Link>
-            <Card.Link ><Button variant="primary" size="sm" onClick={(e) => this.props.removePlace(e, place_id)}>Remove</Button></Card.Link>
+            <Form.Label column sm="0">
+              Comments
+            </Form.Label>
+            <Form.Control
+              size="sm"
+              type="text"
+              placeholder="Whats good?"
+              onChange={this.addNote} />
+            <br />
+            <Card.Link ><Button variant="danger" size="sm" onClick={(e) => this.props.removePlace(e, place_id)}>Remove</Button></Card.Link>
           </Card.Body>
         </Card>
       </>
