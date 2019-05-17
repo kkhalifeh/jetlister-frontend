@@ -9,7 +9,8 @@ class ListFormContainer extends Component {
 
   state = {
     places: [],
-    location: {}
+    location: {},
+    currentuser: 31
   }
 
   addPlace = (id) => {
@@ -27,7 +28,9 @@ class ListFormContainer extends Component {
             name: data.result.name,
             photo_ref: data.result.photos[0].photo_reference,
             location: data.result.geometry.location,
-            website: data.result.website
+            website: data.result.website,
+            category_id: null,
+            note: ''
           }]
         })
       });
@@ -44,15 +47,43 @@ class ListFormContainer extends Component {
 
   saveList = (e) => {
     e.preventDefault()
-    console.log('here')
     console.log('state', this.state)
+    const list = { ...this.state }
+    e.preventDefault()
+    fetch("http://localhost:3000/lists/create", {
+      method: 'POST', // or 'PUT'
+      body: JSON.stringify(list), // data can be `string` or {object}!
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(res => res.json())
+      .then(response => console.log('Success:', JSON.stringify(response)))
   }
 
 
   citySelector = (e) => {
-    console.log(e.value)
-    this.setState({ location: { country: e.value, city: e.label } })
+    console.log(e.id)
+    this.setState({ location_id: e.id })
   }
+
+  addNote = (e, id) => {
+    const places = [...this.state.places]
+    const foundPlace = places.find(place => place.place_id === id)
+    const placeIdx = places.findIndex(place => place.place_id === id)
+    foundPlace.note = e.target.value
+    places[placeIdx] = foundPlace
+    this.setState({ places: places })
+  }
+
+  selectCategory = (e, id) => {
+    const places = [...this.state.places]
+    const foundPlace = places.find(place => place.place_id === id)
+    const placeIdx = places.findIndex(place => place.place_id === id)
+    foundPlace.category_id = e.id
+    places[placeIdx] = foundPlace
+    this.setState({ places: places })
+  }
+
 
   render() {
     return (
@@ -68,6 +99,8 @@ class ListFormContainer extends Component {
           </ListGroup.Item>
           {this.state.places.length > 0 ? <ListGroup.Item>
             <CardContainer
+              selectCategory={this.selectCategory}
+              addNote={this.addNote}
               places={this.state.places}
               removePlace={this.removePlace} />
           </ListGroup.Item> : null}

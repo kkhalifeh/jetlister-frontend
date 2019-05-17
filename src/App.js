@@ -3,7 +3,6 @@ import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavBarContainer from './containers/NavBarContainer';
 import ListFormContainer from './containers/ListFormContainer';
-import MenuBarContainer from './containers/MenuBarContainer';
 
 class App extends Component {
 
