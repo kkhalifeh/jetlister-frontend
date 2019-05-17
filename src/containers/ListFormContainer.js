@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Card, ListGroup } from 'react-bootstrap';
+import { Card, ListGroup, Button } from 'react-bootstrap';
 import LocationSearchInput from './LocationSearchInput';
 import CardContainer from './CardContainer';
+import CitySearch from './CitySearch';
 const API_KEY = "AIzaSyC2-olvvVJYlu-5DZZ-EGKMoQ_zZGI3qyg"
 
 class ListFormContainer extends Component {
@@ -41,18 +42,35 @@ class ListFormContainer extends Component {
     }))
   }
 
+  saveList = (e) => {
+    e.preventDefault()
+    console.log('here')
+    console.log('state', this.state)
+  }
+
+
   render() {
     return (
       <Card style={{ width: 'auto' }}>
         <h3>Create List</h3>
         <ListGroup variant="flush">
-          <ListGroup.Item>CitySelector</ListGroup.Item>
+          <ListGroup.Item><CitySearch /></ListGroup.Item>
           <ListGroup.Item><LocationSearchInput addPlace={this.addPlace} /></ListGroup.Item>
           {this.state.places.length > 0 ? <ListGroup.Item><CardContainer
             places={this.state.places}
             removePlace={this.removePlace} />
           </ListGroup.Item> : null}
         </ListGroup>
+        <ListGroup.Item>
+          <div>
+            <Button
+              onClick={(e) => this.saveList(e)}
+              variant="success"
+              size="md" block>
+              Save
+            </Button>
+          </div>
+        </ListGroup.Item>
       </Card>
     )
   }
